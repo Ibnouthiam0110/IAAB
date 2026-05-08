@@ -575,7 +575,86 @@ html {
     background-color: rgba(233, 30, 99, 0.05);
 }
 
+/* Table Responsive Wrapper */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 2rem 0;
+}
+
+.table-responsive .table {
+    margin: 0;
+    min-width: 600px;
+}
+
+/* Contact Columns Layout */
+.contact-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+}
+
 /* Responsive */
+@media (max-width: 600px) {
+    .hero {
+        min-height: auto;
+        padding: 4rem 0;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+        line-height: 1.3;
+    }
+
+    .hero-content h2 {
+        font-size: 1.2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .cta-button {
+        padding: 10px 24px;
+        font-size: 0.9rem;
+    }
+
+    .contact-columns {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .page-header {
+        padding: 3rem 0;
+    }
+
+    .page-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .page-header p {
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .section-subtitle {
+        font-size: 1.3rem;
+    }
+
+    .featured-card img {
+        height: 200px;
+    }
+
+    .news-item img {
+        height: 180px;
+    }
+}
+
 @media (max-width: 768px) {
     .hamburger {
         display: flex;
