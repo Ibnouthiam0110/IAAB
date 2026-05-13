@@ -4,164 +4,267 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Palmarès - IAAB Basketball</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/jpeg" href="logo.jpg">       
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #e91e63;    /* Rose vif IAAB */
+            --secondary: #1d3557;  /* Bleu Marine */
+            --accent: #1b4332;     /* Vert forêt (ligne du haut) */
+            --dark-footer: #1a1a1a;
+            --white: #ffffff;
+            --light-bg: #fdf2f8;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background: var(--white); 
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, .nav-menu, .footer-h3 { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        ul { list-style: none; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- NAVBAR (STYLE UNIFIÉ) --- */
+        .navbar {
+            background: var(--white);
+            height: 100px;
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 0; width: 100%; z-index: 1000;
+            border-top: 5px solid var(--accent);
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { display: flex; align-items: center; gap: 15px; }
+        .logo img { height: 65px; width: auto; }
+        .logo span { font-family: 'Oswald', sans-serif; font-size: 2.2rem; font-weight: 700; color: var(--primary); letter-spacing: 1px; }
+        .nav-menu { display: flex; gap: 35px; align-items: center; }
+        .nav-link { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 1.05rem; color: #333; padding-bottom: 5px; border-bottom: 3px solid transparent; }
+        .nav-link:hover, .nav-link.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+
+        /* --- HEADER DE PAGE --- */
+        .page-header {
+            background: var(--light-bg);
+            padding: 180px 0 80px;
+            text-align: center;
+        }
+        .page-header h1 { font-size: 3.5rem; color: var(--secondary); margin-bottom: 10px; }
+        .page-header p { font-weight: 600; color: var(--primary); letter-spacing: 2px; }
+
+        /* --- TABLEAU PALMARÈS --- */
+        .section-padding { padding: 80px 0; }
+        .section-subtitle { font-size: 2rem; color: var(--secondary); margin-bottom: 30px; position: relative; padding-bottom: 10px; }
+        .section-subtitle::after { content: ''; position: absolute; left: 0; bottom: 0; width: 50px; height: 3px; background: var(--primary); }
+
+        .table-container { 
+            background: white; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            overflow: hidden; 
+            margin-bottom: 60px;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: var(--secondary); color: white; }
+        th, td { padding: 20px; text-align: left; border-bottom: 1px solid #eee; }
+        th { font-family: 'Oswald', sans-serif; letter-spacing: 1px; }
+        
+        .badge { padding: 6px 15px; border-radius: 20px; color: white; font-weight: 700; font-size: 0.85rem; display: inline-block; }
+        .bg-gold { background: #FFD700; color: #333; }
+        .bg-silver { background: #C0C0C0; color: #333; }
+        .bg-bronze { background: #CD7F32; }
+        .bg-orange { background: #FF9800; }
+        .bg-rose { background: var(--primary); }
+        .bg-green { background: #4CAF50; }
+
+        /* --- DISTINCTIONS --- */
+        .distinction-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .distinction-card { 
+            background: #fff; 
+            padding: 40px 30px; 
+            border-radius: 20px; 
+            text-align: center; 
+            border: 1px solid #eee;
+            transition: 0.3s;
+        }
+        .distinction-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 15px 35px rgba(233, 30, 99, 0.1); }
+        .distinction-card i { font-size: 3.5rem; color: var(--primary); margin-bottom: 20px; }
+        .distinction-card h4 { color: var(--secondary); margin-bottom: 10px; font-size: 1.3rem; }
+
+        /* --- GLOBAL STATS BANNER --- */
+        .stats-banner { 
+            background: linear-gradient(135deg, var(--primary), #ff69b4); 
+            color: white; 
+            padding: 60px; 
+            border-radius: 20px; 
+            display: flex; 
+            justify-content: space-around; 
+            text-align: center; 
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .stat-item h3 { font-size: 3.5rem; line-height: 1; }
+        .stat-item p { font-weight: 600; text-transform: uppercase; font-size: 0.9rem; margin-top: 5px; }
+
+        /* --- FOOTER --- */
+        .footer { background-color: var(--dark-footer); color: #ffffff; padding: 80px 0 20px; border-top: 5px solid var(--primary); margin-top: 80px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 50px; }
+        .footer-h3 { font-size: 1.3rem; margin-bottom: 25px; position: relative; padding-bottom: 10px; }
+        .footer-h3::after { content: ''; position: absolute; left: 0; bottom: 0; width: 40px; height: 3px; background: var(--primary); }
+        .footer-socials { display: flex; gap: 15px; margin-top: 20px; }
+        .social-icon { width: 40px; height: 40px; background: #333; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s; }
+        .social-icon:hover { background: var(--primary); transform: translateY(-3px); }
+        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #333; font-size: 0.85rem; color: #777; }
+
+        @media (max-width: 768px) {
+            th, td { padding: 12px; font-size: 0.9rem; }
+            .stats-banner { flex-direction: column; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
+
     <nav class="navbar">
         <div class="container nav-container">
-            <div class="logo">
-              
-                <img src="logo.jpg" alt="Basketball féminin">
+            <a href="index.html" class="logo">
+                <img src="logo.jpg" alt="IAAB">
                 <span>IAAB</span>
-            </div>
+            </a>
             <ul class="nav-menu">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="presentation.html">Présentation</a></li>
-                <li><a href="historique.html">Historique</a></li>
-                <li><a href="palmares.html" class="active">Palmarès</a></li>
-                <li><a href="actualites.html">Actualités</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="index.html" class="nav-link">Accueil</a></li>
+                <li><a href="presentation.html" class="nav-link">Présentation</a></li>
+                <li><a href="historique.html" class="nav-link">Historique</a></li>
+                <li><a href="palmares.html" class="nav-link active">Palmarès</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </div>
     </nav>
 
-    <!-- Page Header -->
-    <section class="page-header">
+    <header class="page-header">
         <div class="container">
-            <h1>Palmarès</h1>
-            <p>Les trophées et réalisations de IAAB</p>
+            <h1>PALMARÈS & SUCCÈS</h1>
+            <p>UNE HISTOIRE DE VICTOIRES</p>
         </div>
-    </section>
+    </header>
 
-    <!-- Page Content -->
-    <section class="page-content">
-        <div class="container">
-            <h2 class="section-title">Nos Succès</h2>
-            
-            <h3 class="section-subtitle">Palmarès du Club</h3>
-            <div class="table-responsive">
-            <table class="table">
+    <main class="container section-padding">
+        
+        <h3 class="section-subtitle">Performances par Saison</h3>
+        <div class="table-container">
+            <table>
                 <thead>
                     <tr>
                         <th>Saison</th>
                         <th>Zone Dakar</th>
                         <th>Niveau National</th>
-                        <th>Détails</th>
+                        <th>Réalisation</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>2021</td>
-                        <td><span style="background: #FF9800; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: bold;">5e place</span></td>
-                        <td>-</td>
-                        <td>Zone de Dakar</td>
-                    </tr>
-                    <tr>
-                        <td>2022</td>
-                        <td><span style="background: #FF9800; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: bold;">4e place</span></td>
-                        <td>-</td>
-                        <td>Zone de Dakar</td>
-                    </tr>
-                    <tr>
-                        <td>2023</td>
-                        <td><span style="background: #E91E63; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: bold;">2e place</span></td>
-                        <td><span style="background: #FF9800; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: bold;">3e place</span></td>
-                        <td>Qualifié au Tournoi national de montée en D1</td>
+                        <td>2025</td>
+                        <td><span class="badge bg-green">1ère Place</span></td>
+                        <td><span class="badge bg-rose">Finaliste (2e)</span></td>
+                        <td><strong>Montée historique en D1 Nationale</strong></td>
                     </tr>
                     <tr>
                         <td>2024</td>
-                        <td><span style="background: #E91E63; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: bold;">2e place</span></td>
-                        <td><span style="background: #FF9800; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: bold;">4e place</span></td>
-                        <td>Qualifié au Tournoi national de montée en D1</td>
+                        <td><span class="badge bg-rose">2e Place</span></td>
+                        <td><span class="badge bg-orange">4e Place</span></td>
+                        <td>Qualification au Tournoi national</td>
                     </tr>
                     <tr>
-                        <td>2025</td>
-                        <td><span style="background: #4CAF50; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: bold;">1ère place</span></td>
-                        <td><span style="background: #E91E63; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: bold;">2e place</span></td>
-                        <td>Montée en première division nationale</td>
+                        <td>2023</td>
+                        <td><span class="badge bg-rose">2e Place</span></td>
+                        <td><span class="badge bg-orange">3e Place</span></td>
+                        <td>Podium au Championnat National D2</td>
+                    </tr>
+                    <tr>
+                        <td>2022</td>
+                        <td><span class="badge bg-orange">4e Place</span></td>
+                        <td>-</td>
+                        <td>Progression constante</td>
+                    </tr>
+                    <tr>
+                        <td>2021</td>
+                        <td><span class="badge bg-orange">5e Place</span></td>
+                        <td>-</td>
+                        <td>Stabilisation en D2</td>
                     </tr>
                 </tbody>
             </table>
-
-
-            <h3 class="section-subtitle">Distinctions et Récompenses</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
-                <div style="background: rgba(233, 30, 99, 0.1); padding: 2rem; border-radius: 10px; text-align: center;">
-                    <i class="fas fa-star" style="font-size: 3rem; color: #E91E63; margin-bottom: 1rem;"></i>
-                    <h4 style="color: #E91E63; margin-bottom: 0.5rem;">Meilleur Club de Basketball Féminin</h4>
-                    <p style="color: #666;">Sénégal 2024-2025</p>
-                </div>
-                <div style="background: rgba(233, 30, 99, 0.1); padding: 2rem; border-radius: 10px; text-align: center;">
-                    <i class="fas fa-medal" style="font-size: 3rem; color: #E91E63; margin-bottom: 1rem;"></i>
-                    <h4 style="color: #E91E63; margin-bottom: 0.5rem;">Meilleur Encadrement Technique</h4>
-                    <p style="color: #666;">Sénégal 2023</p>
-                </div>
-                <div style="background: rgba(233, 30, 99, 0.1); padding: 2rem; border-radius: 10px; text-align: center;">
-                    <i class="fas fa-trophy" style="font-size: 3rem; color: #E91E63; margin-bottom: 1rem;"></i>
-                    <h4 style="color: #E91E63; margin-bottom: 0.5rem;">Meilleure Académie de Jeunes</h4>
-                    <p style="color: #666;">Afrique de l'Ouest 2022</p>
-                </div>
-            </div>
-
-            <div style="background: linear-gradient(135deg, #E91E63, #FF69B4); color: white; padding: 3rem; border-radius: 10px; text-align: center;">
-                <h3 style="font-size: 2rem; margin-bottom: 1rem;">Palmarès Global</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem; margin-top: 2rem;">
-                    <div>
-                        <p style="font-size: 2.5rem; font-weight: bold;">6</p>
-                        <p>Titres de Champion</p>
-                    </div>
-                    <div>
-                        <p style="font-size: 2.5rem; font-weight: bold;">10+</p>
-                        <p>Trophées Remportés</p>
-                    </div>
-                    <div>
-                        <p style="font-size: 2.5rem; font-weight: bold;">25+</p>
-                        <p>Joueuses Actuelles</p>
-                    </div>
-                </div>
-            </div>
-
         </div>
-    </section>
 
-    <!-- Footer -->
+        <h3 class="section-subtitle">Distinctions Individuelles & Collectives</h3>
+        <div class="distinction-grid">
+            <div class="distinction-card">
+                <i class="fas fa-star"></i>
+                <h4>Meilleur Club Féminin</h4>
+                <p>Sénégal (Saison 2024-2025)</p>
+            </div>
+            <div class="distinction-card">
+                <i class="fas fa-medal"></i>
+                <h4>Encadrement d'Excellence</h4>
+                <p>Prix du meilleur staff technique (2023)</p>
+            </div>
+            <div class="distinction-card">
+                <i class="fas fa-trophy"></i>
+                <h4>Académie de Jeunes</h4>
+                <p>Meilleure formation (Afrique de l'Ouest 2022)</p>
+            </div>
+        </div>
+
+        <div class="stats-banner">
+            <div class="stat-item">
+                <h3>6</h3>
+                <p>Titres régionaux</p>
+            </div>
+            <div class="stat-item">
+                <h3>10+</h3>
+                <p>Trophées cumulés</p>
+            </div>
+            <div class="stat-item">
+                <h3>D1</h3>
+                <p>Division Élite</p>
+            </div>
+        </div>
+    </main>
+
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>IAAB Basketball</h4>
-                    <p>Club de basketball féminin D1 du Sénégal</p>
+            <div class="footer-grid">
+                <div>
+                    <h3 style="color: var(--primary); font-size: 2rem;">IAAB</h3>
+                    <p style="margin-top: 15px; color: #bbb; font-size: 0.9rem;">L'excellence au service du sport féminin. Formation, rigueur et succès au cœur de Dakar.</p>
+                    <div class="footer-socials">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/i_am_academy_basketball" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/221779005858" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                    </div>
                 </div>
-                <div class="footer-section">
-                    <h4>Navigation</h4>
-                    <ul>
-                        <li><a href="presentation.html">Présentation</a></li>
+                <div>
+                    <h3 class="footer-h3">Navigation</h3>
+                    <ul class="footer-links" style="line-height: 2.2;">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="presentation.html">Le Club</a></li>
                         <li><a href="historique.html">Historique</a></li>
-                        <li><a href="palmares.html">Palmarès</a></li>
-                        <li><a href="actualites.html">Actualités</a></li>
+                        <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
-                <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p>Email: iaabbasket2019@gmail.com</p>
-                    <p>Téléphone: +221 77 900 58 58</p>
-                    <p>Dakar, Sénégal</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Suivez-nous</h4>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="https://www.instagram.com/i_am_academy_basketball?igsh=cjNhZDB1YXNrYnQ5&utm_source=qr"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/221779005858"><i class="fab fa-whatsapp"></i></a>
-                    </div>
+                <div>
+                    <h3 class="footer-h3">Contact</h3>
+                    <p style="color: #bbb; margin-bottom: 10px;"><i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 10px;"></i> Dakar, Sénégal</p>
+                    <p style="color: #bbb;"><i class="fas fa-phone" style="color: var(--primary); margin-right: 10px;"></i> +221 77 900 58 58</p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -170,6 +273,5 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
 </body>
 </html>
