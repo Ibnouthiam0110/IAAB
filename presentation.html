@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Présentation - IAAB Basketball</title>
-    <link rel="icon" type="image/jpeg" href="logo.jpg">       
+    <link rel="icon" type="image/jpeg" href="logo.jpg">      
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -33,7 +33,7 @@
         a { text-decoration: none; color: inherit; transition: var(--transition); }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* --- NAVBAR (STYLE IDENTIQUE ACCUEIL) --- */
+        /* --- NAVBAR --- */
         .navbar {
             background: var(--white);
             height: 100px;
@@ -49,9 +49,14 @@
         .logo { display: flex; align-items: center; gap: 15px; }
         .logo img { height: 65px; width: auto; }
         .logo span { font-family: 'Oswald', sans-serif; font-size: 2.2rem; font-weight: 700; color: var(--primary); letter-spacing: 1px; }
+        
         .nav-menu { display: flex; gap: 35px; align-items: center; }
         .nav-link { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 1.05rem; color: #333; padding-bottom: 5px; border-bottom: 3px solid transparent; }
         .nav-link:hover, .nav-link.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+
+        /* Hamburger Menu */
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 6px; }
+        .hamburger span { width: 30px; height: 3px; background: var(--secondary); transition: 0.3s; }
 
         /* --- HEADER DE PAGE --- */
         .page-header {
@@ -65,12 +70,12 @@
         /* --- CONTENU --- */
         .section-padding { padding: 80px 0; }
         .presentation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; margin-bottom: 60px; }
-        .presentation-grid img { width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .presentation-grid img { width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); object-fit: cover; }
         
         .section-subtitle { font-size: 2rem; color: var(--secondary); margin-bottom: 20px; position: relative; padding-bottom: 10px; }
         .section-subtitle::after { content: ''; position: absolute; left: 0; bottom: 0; width: 50px; height: 3px; background: var(--primary); }
 
-        /* Valeurs & Objectifs */
+        /* Valeurs */
         .value-card { background: #fff0f6; padding: 25px; border-radius: 12px; border-left: 5px solid var(--primary); transition: 0.3s; }
         .value-card:hover { transform: translateY(-5px); background: #ffe4f0; }
         .value-card i { color: var(--primary); font-size: 1.5rem; margin-bottom: 15px; display: block; }
@@ -81,18 +86,23 @@
         /* Banner Mission */
         .mission-banner { background: linear-gradient(135deg, var(--primary), #ff69b4); color: white; padding: 60px; border-radius: 20px; margin: 60px 0; }
 
-        /* --- FOOTER (STYLE IDENTIQUE ACCUEIL) --- */
+        /* --- FOOTER --- */
         .footer { background-color: var(--dark-footer); color: #ffffff; padding: 80px 0 20px; border-top: 5px solid var(--primary); margin-top: 80px; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 50px; }
         .footer-h3 { font-size: 1.3rem; margin-bottom: 25px; position: relative; padding-bottom: 10px; }
         .footer-h3::after { content: ''; position: absolute; left: 0; bottom: 0; width: 40px; height: 3px; background: var(--primary); }
-        .footer-links a:hover { color: var(--primary); padding-left: 8px; }
-        .footer-socials { display: flex; gap: 15px; margin-top: 20px; }
         .social-icon { width: 40px; height: 40px; background: #333; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s; }
         .social-icon:hover { background: var(--primary); transform: translateY(-3px); }
         .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #333; font-size: 0.85rem; color: #777; }
 
+        /* --- RESPONSIVE --- */
         @media (max-width: 992px) {
+            .hamburger { display: flex; }
+            .nav-menu {
+                position: absolute; top: 100px; left: -100%; width: 100%; height: calc(100vh - 100px);
+                background: white; flex-direction: column; padding: 40px; transition: 0.5s;
+            }
+            .nav-menu.active { left: 0; }
             .presentation-grid { grid-template-columns: 1fr; }
             .page-header h1 { font-size: 2.5rem; }
         }
@@ -103,10 +113,17 @@
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <img src="logo.jpg" alt="IAAB">
+                <img src="logo.jpg" alt="IAAB Logo">
                 <span>IAAB</span>
             </a>
-            <ul class="nav-menu">
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-menu" id="nav-menu">
                 <li><a href="index.html" class="nav-link">Accueil</a></li>
                 <li><a href="presentation.html" class="nav-link active">Présentation</a></li>
                 <li><a href="historique.html" class="nav-link">Historique</a></li>
@@ -129,7 +146,7 @@
             <div>
                 <h3 class="section-subtitle">Qui sommes-nous ?</h3>
                 <p>IAAB (I AM ACADEMY BASKETBALL) est un club de basketball féminin de haut niveau évoluant en Division 1 du Sénégal. Fondé avec la vision de promouvoir l'excellence, l'égalité et le développement du basketball féminin, notre club est devenu une référence dans le paysage sportif sénégalais.</p>
-                <p style="margin-top: 1.5rem;">Notre engagement envers nos joueuses va bien au-delà du terrain. Nous croyons en l'importance de former des athlètes complètes, disciplinées et respectueuses, capables de contribuer positivement à la société.</p>
+                <p style="margin-top: 1.5rem;">Notre engagement envers nos joueuses va bien au-delà du terrain. Nous croyons en l'importance de former des athlètes complètes, capables de contribuer positivement à la société.</p>
             </div>
             <div>
                 <img src="equipe.jpeg" alt="Équipe IAAB">
@@ -141,67 +158,56 @@
             <div class="value-card">
                 <i class="fas fa-star"></i>
                 <h4>Excellence</h4>
-                <p>Nous visons le sommet dans chaque aspect de notre activité, sur et hors terrain.</p>
+                <p>Nous visons le sommet dans chaque aspect, sur et hors terrain.</p>
             </div>
             <div class="value-card">
                 <i class="fas fa-heart"></i>
                 <h4>Passion</h4>
-                <p>Nous jouons avec dévouement, inspirant les générations futures.</p>
+                <p>Nous jouons avec dévouement pour inspirer le futur.</p>
             </div>
             <div class="value-card">
                 <i class="fas fa-users"></i>
                 <h4>Respect</h4>
-                <p>Le respect des partenaires, adversaires et règles est notre socle.</p>
+                <p>Le socle de notre engagement envers tous les acteurs.</p>
             </div>
             <div class="value-card">
                 <i class="fas fa-leaf"></i>
                 <h4>Durabilité</h4>
-                <p>Engagement pour un développement pérenne du basket féminin.</p>
+                <p>Engagement pour un développement pérenne du basket.</p>
             </div>
         </div>
 
         <section class="mission-banner">
             <h3 style="font-size: 2.2rem; margin-bottom: 20px; color: white;">Notre Mission</h3>
-            <p style="font-size: 1.2rem; line-height: 1.8;">Promouvoir l'excellence du basketball féminin au Sénégal en développant des athlètes talentueuses, disciplinées et respectueuses des valeurs du sport. Nous aspirons à créer un environnement inspirant où chaque joueuse peut exprimer son potentiel maximal.</p>
+            <p style="font-size: 1.2rem; line-height: 1.8;">Promouvoir l'excellence du basketball féminin au Sénégal en développant des athlètes talentueuses et disciplinées. Nous aspirons à créer un environnement inspirant où chaque joueuse peut exprimer son potentiel maximal.</p>
         </section>
 
         <h3 class="section-subtitle">Nos Objectifs</h3>
-        
         <div style="margin-top: 30px;">
             <h4 style="color: var(--primary); margin-bottom: 15px;"><i class="fas fa-bolt"></i> À court terme</h4>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 40px;">
-                <div class="objective-item"><i class="fas fa-check-circle"></i> Participer aux Play-offs de la saison</div>
-                <div class="objective-item"><i class="fas fa-check-circle"></i> Top 4 des meilleures équipes</div>
-                <div class="objective-item"><i class="fas fa-check-circle"></i> Populariser davantage le club</div>
+                <div class="objective-item"><i class="fas fa-check-circle"></i> Participer aux Play-offs</div>
+                <div class="objective-item"><i class="fas fa-check-circle"></i> Top 4 national</div>
                 <div class="objective-item"><i class="fas fa-check-circle"></i> Formation petite catégorie</div>
-            </div>
-
-            <h4 style="color: var(--primary); margin-bottom: 15px;"><i class="fas fa-calendar-alt"></i> À moyen terme</h4>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 40px;">
-                <div class="objective-item"><i class="fas fa-check-circle"></i> Moderniser l'infrastructure</div>
-                <div class="objective-item"><i class="fas fa-check-circle"></i> Rémunération correcte du staff</div>
-                <div class="objective-item"><i class="fas fa-check-circle"></i> Remporter les trophées nationaux</div>
-                <div class="objective-item"><i class="fas fa-check-circle"></i> Recrutement international</div>
             </div>
         </div>
 
         <h3 class="section-subtitle" style="margin-top: 60px;">Structure du Club</h3>
         <div class="presentation-grid">
             <div>
-                <img src="image4.jpeg" alt="Structure">
+                <img src="image4.jpeg" alt="Structure Technique">
             </div>
             <div style="display: flex; flex-direction: column; gap: 15px;">
-                <p><strong>Président(e) :</strong> Pilotage stratégique et réalisation des objectifs.</p>
-                <p><strong>Entraîneur Principal :</strong> Préparation tactique et technique.</p>
-                <p><strong>Entraîneurs Adjoints :</strong> Soutien technique et opérationnel.</p>
-                <p><strong>Préparateur Physique :</strong> Condition physique optimale des joueuses.</p>
-                <p><strong>Responsable Administratif :</strong> Gestion logistique et administrative.</p>
+                <p><strong>Direction :</strong> Pilotage stratégique et vision globale.</p>
+                <p><strong>Staff Technique :</strong> Préparation tactique de haut niveau.</p>
+                <p><strong>Pôle Médical :</strong> Suivi physique et récupération optimale.</p>
+                <p><strong>Administration :</strong> Gestion logistique et opérationnelle.</p>
             </div>
         </div>
 
         <div style="text-align: center; padding: 60px 20px; background: #f9f9f9; border-radius: 20px; margin-top: 60px;">
-            <h3 style="color: var(--primary); margin-bottom: 20px;">Envie de rejoindre l'aventure ?</h3>
-            <p style="margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">Nous recherchons toujours des talents passionnés. Contactez-nous pour les prochaines détections.</p>
+            <h3 style="color: var(--primary); margin-bottom: 20px;">Rejoignez l'aventure IAAB</h3>
+            <p style="margin-bottom: 30px;">Contactez-nous pour les prochaines sessions de détection.</p>
             <a href="contact.html" style="background: var(--primary); color: white; padding: 15px 40px; border-radius: 50px; font-weight: 700; display: inline-block;">NOUS CONTACTER</a>
         </div>
     </main>
@@ -211,7 +217,7 @@
             <div class="footer-grid">
                 <div>
                     <h3 style="color: var(--primary); font-size: 2rem;">IAAB</h3>
-                    <p style="margin-top: 15px; color: #bbb; font-size: 0.9rem;">L'excellence au service du sport féminin. Formation, rigueur et succès au cœur de Dakar.</p>
+                    <p style="margin-top: 15px; color: #bbb; font-size: 0.9rem;">L'excellence au service du sport féminin à Dakar.</p>
                     <div class="footer-socials">
                         <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://www.instagram.com/i_am_academy_basketball" class="social-icon"><i class="fab fa-instagram"></i></a>
@@ -220,17 +226,16 @@
                 </div>
                 <div>
                     <h3 class="footer-h3">Navigation</h3>
-                    <ul class="footer-links" style="line-height: 2;">
+                    <ul style="line-height: 2;">
                         <li><a href="index.html">Accueil</a></li>
-                        <li><a href="presentation.html" style="color: var(--primary);">Présentation</a></li>
                         <li><a href="palmares.html">Palmarès</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="footer-h3">Contact</h3>
-                    <p style="color: #bbb; margin-bottom: 10px;"><i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 10px;"></i> Dakar, Sénégal</p>
                     <p style="color: #bbb;"><i class="fas fa-phone" style="color: var(--primary); margin-right: 10px;"></i> +221 77 900 58 58</p>
+                    <p style="color: #bbb;"><i class="fas fa-envelope" style="color: var(--primary); margin-right: 10px;"></i> iaabbasket2019@gmail.com</p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -239,5 +244,17 @@
         </div>
     </footer>
 
+    <script>
+        // Script pour le menu hamburger
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            // Animation optionnelle du hamburger (croix)
+            const spans = hamburger.querySelectorAll('span');
+            spans.forEach(span => span.classList.toggle('active'));
+        });
+    </script>
 </body>
 </html>

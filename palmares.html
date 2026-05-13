@@ -12,7 +12,7 @@
         :root {
             --primary: #e91e63;    /* Rose vif IAAB */
             --secondary: #1d3557;  /* Bleu Marine */
-            --accent: #1b4332;     /* Vert forêt (ligne du haut) */
+            --accent: #1b4332;     /* Vert forêt */
             --dark-footer: #1a1a1a;
             --white: #ffffff;
             --light-bg: #fdf2f8;
@@ -33,7 +33,7 @@
         a { text-decoration: none; color: inherit; transition: var(--transition); }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* --- NAVBAR (STYLE UNIFIÉ) --- */
+        /* --- NAVBAR --- */
         .navbar {
             background: var(--white);
             height: 100px;
@@ -49,9 +49,13 @@
         .logo { display: flex; align-items: center; gap: 15px; }
         .logo img { height: 65px; width: auto; }
         .logo span { font-family: 'Oswald', sans-serif; font-size: 2.2rem; font-weight: 700; color: var(--primary); letter-spacing: 1px; }
+        
         .nav-menu { display: flex; gap: 35px; align-items: center; }
         .nav-link { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 1.05rem; color: #333; padding-bottom: 5px; border-bottom: 3px solid transparent; }
         .nav-link:hover, .nav-link.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 6px; }
+        .hamburger span { width: 30px; height: 3px; background: var(--secondary); transition: 0.3s; }
 
         /* --- HEADER DE PAGE --- */
         .page-header {
@@ -67,12 +71,12 @@
         .section-subtitle { font-size: 2rem; color: var(--secondary); margin-bottom: 30px; position: relative; padding-bottom: 10px; }
         .section-subtitle::after { content: ''; position: absolute; left: 0; bottom: 0; width: 50px; height: 3px; background: var(--primary); }
 
+        .table-responsive { overflow-x: auto; margin-bottom: 60px; }
         .table-container { 
             background: white; 
             border-radius: 15px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-            overflow: hidden; 
-            margin-bottom: 60px;
+            min-width: 800px; /* Force la largeur pour le scroll mobile */
         }
         table { width: 100%; border-collapse: collapse; }
         thead { background: var(--secondary); color: white; }
@@ -81,10 +85,8 @@
         
         .badge { padding: 6px 15px; border-radius: 20px; color: white; font-weight: 700; font-size: 0.85rem; display: inline-block; }
         .bg-gold { background: #FFD700; color: #333; }
-        .bg-silver { background: #C0C0C0; color: #333; }
-        .bg-bronze { background: #CD7F32; }
-        .bg-orange { background: #FF9800; }
         .bg-rose { background: var(--primary); }
+        .bg-orange { background: #FF9800; }
         .bg-green { background: #4CAF50; }
 
         /* --- DISTINCTIONS --- */
@@ -95,13 +97,13 @@
             border-radius: 20px; 
             text-align: center; 
             border: 1px solid #eee;
-            transition: 0.3s;
+            transition: var(--transition);
         }
         .distinction-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 15px 35px rgba(233, 30, 99, 0.1); }
         .distinction-card i { font-size: 3.5rem; color: var(--primary); margin-bottom: 20px; }
         .distinction-card h4 { color: var(--secondary); margin-bottom: 10px; font-size: 1.3rem; }
 
-        /* --- GLOBAL STATS BANNER --- */
+        /* --- STATS BANNER --- */
         .stats-banner { 
             background: linear-gradient(135deg, var(--primary), #ff69b4); 
             color: white; 
@@ -113,7 +115,7 @@
             flex-wrap: wrap;
             gap: 30px;
         }
-        .stat-item h3 { font-size: 3.5rem; line-height: 1; }
+        .stat-item h3 { font-size: 3.5rem; line-height: 1; font-family: 'Oswald', sans-serif; }
         .stat-item p { font-weight: 600; text-transform: uppercase; font-size: 0.9rem; margin-top: 5px; }
 
         /* --- FOOTER --- */
@@ -126,9 +128,15 @@
         .social-icon:hover { background: var(--primary); transform: translateY(-3px); }
         .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #333; font-size: 0.85rem; color: #777; }
 
-        @media (max-width: 768px) {
-            th, td { padding: 12px; font-size: 0.9rem; }
-            .stats-banner { flex-direction: column; }
+        /* --- MOBILE NAV --- */
+        @media (max-width: 992px) {
+            .hamburger { display: flex; }
+            .nav-menu {
+                position: absolute; top: 100px; left: -100%; width: 100%; height: calc(100vh - 100px);
+                background: white; flex-direction: column; padding: 40px; transition: 0.5s;
+            }
+            .nav-menu.active { left: 0; }
+            .page-header h1 { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -137,10 +145,17 @@
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <img src="logo.jpg" alt="IAAB">
+                <img src="logo.jpg" alt="IAAB Logo">
                 <span>IAAB</span>
             </a>
-            <ul class="nav-menu">
+
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-menu" id="nav-menu">
                 <li><a href="index.html" class="nav-link">Accueil</a></li>
                 <li><a href="presentation.html" class="nav-link">Présentation</a></li>
                 <li><a href="historique.html" class="nav-link">Historique</a></li>
@@ -160,52 +175,48 @@
     <main class="container section-padding">
         
         <h3 class="section-subtitle">Performances par Saison</h3>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Saison</th>
-                        <th>Zone Dakar</th>
-                        <th>Niveau National</th>
-                        <th>Réalisation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>2025</td>
-                        <td><span class="badge bg-green">1ère Place</span></td>
-                        <td><span class="badge bg-rose">Finaliste (2e)</span></td>
-                        <td><strong>Montée historique en D1 Nationale</strong></td>
-                    </tr>
-                    <tr>
-                        <td>2024</td>
-                        <td><span class="badge bg-rose">2e Place</span></td>
-                        <td><span class="badge bg-orange">4e Place</span></td>
-                        <td>Qualification au Tournoi national</td>
-                    </tr>
-                    <tr>
-                        <td>2023</td>
-                        <td><span class="badge bg-rose">2e Place</span></td>
-                        <td><span class="badge bg-orange">3e Place</span></td>
-                        <td>Podium au Championnat National D2</td>
-                    </tr>
-                    <tr>
-                        <td>2022</td>
-                        <td><span class="badge bg-orange">4e Place</span></td>
-                        <td>-</td>
-                        <td>Progression constante</td>
-                    </tr>
-                    <tr>
-                        <td>2021</td>
-                        <td><span class="badge bg-orange">5e Place</span></td>
-                        <td>-</td>
-                        <td>Stabilisation en D2</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="table-responsive">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Saison</th>
+                            <th>Zone Dakar</th>
+                            <th>Niveau National</th>
+                            <th>Réalisation Majeure</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2025</td>
+                            <td><span class="badge bg-green">1ère Place</span></td>
+                            <td><span class="badge bg-rose">Finaliste (2e)</span></td>
+                            <td><strong>Montée historique en D1 Nationale</strong></td>
+                        </tr>
+                        <tr>
+                            <td>2024</td>
+                            <td><span class="badge bg-rose">2e Place</span></td>
+                            <td><span class="badge bg-orange">4e Place</span></td>
+                            <td>Qualification au Tournoi national</td>
+                        </tr>
+                        <tr>
+                            <td>2023</td>
+                            <td><span class="badge bg-rose">2e Place</span></td>
+                            <td><span class="badge bg-gold">3e Place</span></td>
+                            <td>Podium au Championnat National D2</td>
+                        </tr>
+                        <tr>
+                            <td>2022</td>
+                            <td><span class="badge bg-orange">4e Place</span></td>
+                            <td>-</td>
+                            <td>Progression constante du collectif</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <h3 class="section-subtitle">Distinctions Individuelles & Collectives</h3>
+        <h3 class="section-subtitle">Distinctions</h3>
         <div class="distinction-grid">
             <div class="distinction-card">
                 <i class="fas fa-star"></i>
@@ -220,7 +231,7 @@
             <div class="distinction-card">
                 <i class="fas fa-trophy"></i>
                 <h4>Académie de Jeunes</h4>
-                <p>Meilleure formation (Afrique de l'Ouest 2022)</p>
+                <p>Meilleure formation (Dakar 2022)</p>
             </div>
         </div>
 
@@ -245,7 +256,7 @@
             <div class="footer-grid">
                 <div>
                     <h3 style="color: var(--primary); font-size: 2rem;">IAAB</h3>
-                    <p style="margin-top: 15px; color: #bbb; font-size: 0.9rem;">L'excellence au service du sport féminin. Formation, rigueur et succès au cœur de Dakar.</p>
+                    <p style="margin-top: 15px; color: #bbb; font-size: 0.9rem;">L'excellence au service du sport féminin à Dakar.</p>
                     <div class="footer-socials">
                         <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://www.instagram.com/i_am_academy_basketball" class="social-icon"><i class="fab fa-instagram"></i></a>
@@ -254,16 +265,14 @@
                 </div>
                 <div>
                     <h3 class="footer-h3">Navigation</h3>
-                    <ul class="footer-links" style="line-height: 2.2;">
-                        <li><a href="index.html">Accueil</a></li>
-                        <li><a href="presentation.html">Le Club</a></li>
-                        <li><a href="historique.html">Historique</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                    <ul style="line-height: 2;">
+                        <li><a href="index.html" style="color: #bbb;">Accueil</a></li>
+                        <li><a href="presentation.html" style="color: #bbb;">Présentation</a></li>
+                        <li><a href="contact.html" style="color: #bbb;">Contact</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="footer-h3">Contact</h3>
-                    <p style="color: #bbb; margin-bottom: 10px;"><i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 10px;"></i> Dakar, Sénégal</p>
                     <p style="color: #bbb;"><i class="fas fa-phone" style="color: var(--primary); margin-right: 10px;"></i> +221 77 900 58 58</p>
                 </div>
             </div>
@@ -273,5 +282,13 @@
         </div>
     </footer>
 
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>

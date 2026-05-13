@@ -12,7 +12,7 @@
         :root {
             --primary: #e91e63;    /* Rose vif IAAB */
             --secondary: #1d3557;  /* Bleu Marine */
-            --accent: #1b4332;     /* Vert forêt (ligne du haut) */
+            --accent: #1b4332;     /* Vert forêt */
             --dark-footer: #1a1a1a;
             --white: #ffffff;
             --light-bg: #fdf2f8;
@@ -49,9 +49,13 @@
         .logo { display: flex; align-items: center; gap: 15px; }
         .logo img { height: 65px; width: auto; }
         .logo span { font-family: 'Oswald', sans-serif; font-size: 2.2rem; font-weight: 700; color: var(--primary); }
+        
         .nav-menu { display: flex; gap: 35px; align-items: center; }
         .nav-link { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 1.05rem; color: #333; padding-bottom: 5px; border-bottom: 3px solid transparent; }
         .nav-link:hover, .nav-link.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 6px; }
+        .hamburger span { width: 30px; height: 3px; background: var(--secondary); transition: 0.3s; }
 
         /* --- HEADER DE PAGE --- */
         .page-header {
@@ -80,7 +84,7 @@
             top: 0;
             height: 100%;
             width: 4px;
-            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
             border-radius: 2px;
         }
         .timeline-item {
@@ -111,9 +115,7 @@
             color: var(--secondary);
             margin-bottom: 10px;
         }
-        .timeline-content p {
-            color: #666;
-        }
+        .timeline-content p { color: #555; }
 
         /* Stats Cards */
         .stats-grid {
@@ -129,7 +131,9 @@
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             border-bottom: 5px solid var(--primary);
+            transition: var(--transition);
         }
+        .stat-card:hover { transform: translateY(-5px); }
         .stat-number {
             font-size: 3.5rem;
             color: var(--primary);
@@ -141,6 +145,7 @@
             font-weight: 600;
             color: var(--secondary);
             letter-spacing: 1px;
+            font-size: 0.9rem;
         }
 
         /* --- FOOTER --- */
@@ -153,9 +158,15 @@
         .social-icon:hover { background: var(--primary); transform: translateY(-3px); }
         .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #333; font-size: 0.85rem; color: #777; }
 
-        @media (max-width: 768px) {
+        /* --- RESPONSIVE --- */
+        @media (max-width: 992px) {
+            .hamburger { display: flex; }
+            .nav-menu {
+                position: absolute; top: 100px; left: -100%; width: 100%; height: calc(100vh - 100px);
+                background: white; flex-direction: column; padding: 40px; transition: 0.5s;
+            }
+            .nav-menu.active { left: 0; }
             .page-header h1 { font-size: 2.5rem; }
-            .timeline { padding-left: 20px; }
         }
     </style>
 </head>
@@ -167,7 +178,14 @@
                 <img src="logo.jpg" alt="IAAB Logo">
                 <span>IAAB</span>
             </a>
-            <ul class="nav-menu">
+
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-menu" id="nav-menu">
                 <li><a href="index.html" class="nav-link">Accueil</a></li>
                 <li><a href="presentation.html" class="nav-link">Présentation</a></li>
                 <li><a href="historique.html" class="nav-link active">Historique</a></li>
@@ -188,8 +206,7 @@
         
         <div class="intro-text">
             <h2 style="font-family: 'Oswald'; margin-bottom: 20px; color: var(--secondary);">NOTRE PARCOURS</h2>
-            <p>Fondé en 2020, <strong>I’AM Academy Basketball Féminin</strong> est né avec un objectif clair : former, encadrer et révéler de jeunes talents capables de rivaliser au plus haut niveau.</p>
-            <p style="margin-top: 15px;">Porté par la discipline et le travail, le club s’est imposé en seulement 4 ans comme l’un des projets les plus prometteurs, accédant officiellement à la <strong>D1 Nationale en 2025</strong>.</p>
+            <p>Fondé en 2020, <strong>I’AM Academy Basketball Féminin</strong> est né d'une volonté de professionnaliser la formation du basket féminin au Sénégal. En quelques années, le club est passé d'un projet local à un acteur majeur du championnat national.</p>
         </div>
 
         <div class="timeline">
@@ -197,15 +214,7 @@
                 <div class="timeline-date">2020</div>
                 <div class="timeline-content">
                     <h3>Fondation & Débuts</h3>
-                    <p>Lancement officiel de l'académie. Pour sa première saison, le club termine 5e au Championnat D2 Dakar.</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-date">2021</div>
-                <div class="timeline-content">
-                    <h3>Consolidation</h3>
-                    <p>Stabilité au niveau régional avec une 5e place au Championnat Zone Dakar et renforcement de l'effectif.</p>
+                    <p>Lancement de l'académie à Dakar. Première participation officielle en D2 et structuration des équipes de jeunes.</p>
                 </div>
             </div>
 
@@ -213,35 +222,35 @@
                 <div class="timeline-date">2023</div>
                 <div class="timeline-content">
                     <h3>Premiers Podiums</h3>
-                    <p>2e au Championnat Régional D2 Dakar et une honorable 3e place au Championnat National D2 (Tournoi de montée).</p>
+                    <p>IAAB s'affirme comme un sérieux prétendant en terminant 2e du Championnat Régional de Dakar.</p>
                 </div>
             </div>
 
             <div class="timeline-item">
                 <div class="timeline-date">2024</div>
                 <div class="timeline-content">
-                    <h3>Confirmation</h3>
-                    <p>Le club maintient son rang de vice-champion régional de Dakar et termine 4e au niveau national.</p>
+                    <h3>Confirmation Nationale</h3>
+                    <p>Participation au tournoi national de montée et stabilisation de l'équipe parmi les meilleures formations de D2.</p>
                 </div>
             </div>
 
             <div class="timeline-item">
                 <div class="timeline-date">2025</div>
                 <div class="timeline-content">
-                    <h3 style="color: var(--primary);">L'Accès à l'Élite (D1)</h3>
-                    <p>Finaliste du Tournoi de montée. IAAB valide officiellement son ticket pour la <strong>Division 1 Nationale</strong>. Une étape historique !</p>
+                    <h3 style="color: var(--primary);">L'Accession en Division 1</h3>
+                    <p>Année charnière : IAAB valide sa montée historique en <strong>Division 1 Nationale</strong>, rejoignant l'élite du basket sénégalais.</p>
                 </div>
             </div>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
-                <span class="stat-number">5</span>
-                <span class="stat-label">Années d'existence</span>
+                <span class="stat-number">2020</span>
+                <span class="stat-label">Année de création</span>
             </div>
             <div class="stat-card">
                 <span class="stat-number">100+</span>
-                <span class="stat-label">Joueuses formées</span>
+                <span class="stat-label">Talents encadrés</span>
             </div>
             <div class="stat-card">
                 <span class="stat-number">D1</span>
@@ -256,7 +265,7 @@
             <div class="footer-grid">
                 <div>
                     <h3 style="color: var(--primary); font-size: 2rem;">IAAB</h3>
-                    <p style="margin-top: 15px; color: #bbb; font-size: 0.9rem;">L'excellence au service du sport féminin. Formation, rigueur et succès au cœur de Dakar.</p>
+                    <p style="margin-top: 15px; color: #bbb; font-size: 0.9rem;">L'excellence au service du sport féminin à Dakar.</p>
                     <div class="footer-socials">
                         <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://www.instagram.com/i_am_academy_basketball" class="social-icon"><i class="fab fa-instagram"></i></a>
@@ -265,17 +274,17 @@
                 </div>
                 <div>
                     <h3 class="footer-h3">Navigation</h3>
-                    <ul class="footer-links" style="line-height: 2;">
-                        <li><a href="index.html">Accueil</a></li>
-                        <li><a href="presentation.html">Présentation</a></li>
-                        <li><a href="palmares.html">Palmarès</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                    <ul style="line-height: 2;">
+                        <li><a href="index.html" style="color: #bbb;">Accueil</a></li>
+                        <li><a href="presentation.html" style="color: #bbb;">Présentation</a></li>
+                        <li><a href="palmares.html" style="color: #bbb;">Palmarès</a></li>
+                        <li><a href="contact.html" style="color: #bbb;">Contact</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="footer-h3">Contact</h3>
-                    <p style="color: #bbb; margin-bottom: 10px;"><i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 10px;"></i> Dakar, Sénégal</p>
-                    <p style="color: #bbb;"><i class="fas fa-phone" style="color: var(--primary); margin-right: 10px;"></i> +221 77 900 58 58</p>
+                    <p style="color: #bbb;"><i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 10px;"></i> Dakar, Sénégal</p>
+                    <p style="color: #bbb; margin-top: 10px;"><i class="fas fa-phone" style="color: var(--primary); margin-right: 10px;"></i> +221 77 900 58 58</p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -284,5 +293,13 @@
         </div>
     </footer>
 
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
